@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { SorobanAnalyzerPlugin } from '../src/plugin.js';
 import { walkSafe } from '@codegraph/core';
 import path from 'path';
+import fs from 'fs/promises';
 
 describe('Soroban Analyzer Golden Tests', () => {
   const plugin = new SorobanAnalyzerPlugin();
@@ -123,4 +124,24 @@ describe('Soroban Analyzer Golden Tests', () => {
     // Verify line numbers did actually change to prove the test is valid
     expect(result1.nodes[0].span.startLine).not.toEqual(result2.nodes[0].span.startLine);
   });
+
+  it('matches canonical golden snapshot for soroban-single', async () => {
+    const result = await runFixture('soroban-single');
+    const snapshotPath = path.resolve(__dirname, '../../../fixtures/golden/soroban-single.graph.json');
+    const snapshotRaw = await fs.readFile(snapshotPath, 'utf-8');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const golden = JSON.parse(snapshotRaw);
+
+    expect(result.nodes.length).toBe(golden.nodes.length);
+    expect(result.edges.length).toBe(golden.edges.length);
+    expect(result.nodes.map(n => ({ type: n.type, name: n.name }))).toEqual(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      golden.nodes.map((n: any) => ({ type: n.type, name: n.name }))
+    );
+    expect(result.edges.map(e => ({ type: e.type, resolved: e.resolved }))).toEqual(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      golden.edges.map((e: any) => ({ type: e.type, resolved: e.resolved }))
+    );
+  });
 });
+

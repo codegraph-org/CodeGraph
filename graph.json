@@ -1,87 +1,15 @@
 {
   "schemaVersion": 1,
-  "nodes": [
-    {
-      "id": "contract_SingleContract_librs",
-      "type": "contract",
-      "name": "SingleContract",
-      "file": "/Users/tejaschavan1907/CodeGraph/fixtures/soroban-single/src/lib.rs",
-      "span": {
-        "startLine": 5,
-        "endLine": 5
-      }
-    },
-    {
-      "id": "function_SingleContract__do_something_librs",
-      "type": "function",
-      "name": "do_something",
-      "file": "/Users/tejaschavan1907/CodeGraph/fixtures/soroban-single/src/lib.rs",
-      "span": {
-        "startLine": 9,
-        "endLine": 12
-      },
-      "meta": {
-        "parentContract": "contract_SingleContract_librs",
-        "has_auth_check": false,
-        "storage_keys": [
-          {
-            "key": "key",
-            "durability": "unknown"
-          },
-          {
-            "key": "Topic",
-            "durability": "unknown"
-          }
-        ],
-        "internal_calls": []
-      }
-    }
-  ],
-  "edges": [
-    {
-      "id": "edge_do_something__write_storage_librs",
-      "from": "function_SingleContract__do_something_librs",
-      "to": null,
-      "type": "writes_storage",
-      "confidence": "high",
-      "resolved": true,
-      "evidence": {
-        "file": "/Users/tejaschavan1907/CodeGraph/fixtures/soroban-single/src/lib.rs",
-        "line": 10
-      }
-    },
-    {
-      "id": "edge_do_something__emit_event_librs",
-      "from": "function_SingleContract__do_something_librs",
-      "to": null,
-      "type": "emits_event",
-      "confidence": "high",
-      "resolved": true,
-      "evidence": {
-        "file": "/Users/tejaschavan1907/CodeGraph/fixtures/soroban-single/src/lib.rs",
-        "line": 11
-      }
-    }
-  ],
-  "heuristics": [
-    {
-      "id": "no-auth-state-change",
-      "name": "State-Changing Functions Without Auth",
-      "description": "Functions that write to storage but have no visible authorization check.",
-      "count": 1,
-      "evidence": [
-        {
-          "file": "/Users/tejaschavan1907/CodeGraph/fixtures/soroban-single/src/lib.rs",
-          "line": 9,
-          "detail": "Function do_something writes to storage without auth"
-        }
-      ],
-      "falsePositiveNote": "Authorization might be handled by an upstream caller, a macro, or through trait implementations not tracked by the AST.",
-      "severity": "info"
-    }
-  ],
+  "nodes": [],
+  "edges": [],
+  "heuristics": [],
   "coverage": {
-    "filesAnalyzed": 2,
-    "skippedFiles": []
+    "filesAnalyzed": 0,
+    "skippedFiles": [
+      {
+        "file": "/Users/tejaschavan1907/CodeGraph/fixtures/cli-warnings/large.txt",
+        "reason": "File too large (6291456 > 5242880)"
+      }
+    ]
   }
 }

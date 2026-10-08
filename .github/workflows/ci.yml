@@ -2,11 +2,19 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, maintainer-setup]
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
-  build-and-test:
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,3 +31,113 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Lint
         run: pnpm lint
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build packages
+        run: pnpm build
+
+  typecheck:
+    name: Typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build for type reference
+        run: pnpm build
+      - name: Typecheck
+        run: pnpm typecheck
+
+  test:
+    name: Unit & Golden Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build for test dependencies
+        run: pnpm build
+      - name: Run vitest
+        run: pnpm test
+
+  smoke-test:
+    name: CLI Smoke & Snapshot
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build CLI
+        run: pnpm build
+      - name: Run CLI analyze on fixture
+        run: node apps/cli/dist/index.js analyze fixtures/soroban-single -o smoke-graph.json
+      - name: Verify graph output exists and has content
+        run: test -s smoke-graph.json
+      - name: Run CLI docs generation
+        run: node apps/cli/dist/index.js docs smoke-graph.json -o smoke-arch.md
+      - name: Verify generated markdown
+        run: test -s smoke-arch.md && grep -q "SingleContract" smoke-arch.md
+      - name: Run CLI Mermaid export
+        run: node apps/cli/dist/index.js export smoke-graph.json --format mermaid -o smoke-graph.mermaid
+      - name: Verify Mermaid export
+        run: test -s smoke-graph.mermaid && grep -q "graph TD" smoke-graph.mermaid
+
+  ci-status:
+    name: ci-status
+    needs: [lint, build, typecheck, test, smoke-test]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Evaluate status
+        run: |
+          if [ "${{ needs.lint.result }}" != "success" ] || \
+             [ "${{ needs.build.result }}" != "success" ] || \
+             [ "${{ needs.typecheck.result }}" != "success" ] || \
+             [ "${{ needs.test.result }}" != "success" ] || \
+             [ "${{ needs.smoke-test.result }}" != "success" ]; then
+            echo "CI pipeline failed!"
+            exit 1
+          fi
+          echo "All CI jobs passed successfully."

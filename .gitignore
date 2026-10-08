@@ -4,3 +4,9 @@ dist/
 test-results/
 playwright-report/
 .vite/
+*.tsbuildinfo
+graph.json
+test-output/
+*.mermaid
+
+
