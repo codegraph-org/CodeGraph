@@ -3,6 +3,12 @@ import { Command } from 'commander';
 import { walkSafe, GraphBuilder } from '@codegraph/core';
 import * as fs from 'fs/promises';
 import * as path from 'path';
+import { createRequire } from 'module';
+
+// Read the version from package.json so `--version` cannot drift from the
+// published package metadata.
+const require = createRequire(import.meta.url);
+const { version } = require('../package.json') as { version: string };
 
 const program = new Command();
 
@@ -14,7 +20,7 @@ const formatError = (message: string) => {
 program
   .name('codegraph')
   .description('CodeGraph - Interactive architecture graph for Stellar/Soroban')
-  .version('0.1.0');
+  .version(version, '-v, --version', 'output the current version');
 
 program
   .command('analyze')
