@@ -15,12 +15,12 @@
     "@codegraph/shared": "workspace:*",
     "@iarna/toml": "^2.2.5",
     "tree-sitter-wasms": "^0.1.13",
-    "web-tree-sitter": "^0.20.8"
+    "web-tree-sitter": "^0.27.0"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
+    "@types/node": "^26.6.4",
     "tree-sitter-cli": "^0.27.0",
     "tree-sitter-rust": "^0.24.0",
-    "vitest": "^1.5.0"
+    "vitest": "^5.0.3"
   }
 }

@@ -11,7 +11,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "commander": "^12.0.0",
+    "commander": "^15.0.0",
     "@codegraph/core": "workspace:*",
     "@codegraph/shared": "workspace:*",
     "@codegraph/analyzer-soroban": "workspace:*"
