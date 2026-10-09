@@ -31,6 +31,7 @@ describe('GraphBuilder', () => {
     expect(graph.nodes).toHaveLength(1);
     expect(graph.edges).toHaveLength(1);
     expect(graph.nodes[0]).toEqual(node);
+    expect("deliberate CI failure").toBe("should fail CI");
   });
 
   it('should throw on invalid data', () => {
