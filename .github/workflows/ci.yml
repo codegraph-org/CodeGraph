@@ -123,6 +123,12 @@ jobs:
         run: node apps/cli/dist/index.js export smoke-graph.json --format mermaid -o smoke-graph.mermaid
       - name: Verify Mermaid export
         run: test -s smoke-graph.mermaid && grep -q "graph TD" smoke-graph.mermaid
+      - name: Run CLI DOT export
+        run: node apps/cli/dist/index.js export smoke-graph.json --format dot -o smoke-graph.dot
+      - name: Verify DOT export
+        run: test -s smoke-graph.dot && grep -q "digraph G" smoke-graph.dot
+      - name: Run CLI check command
+        run: node apps/cli/dist/index.js check smoke-graph.json
 
   ci-status:
     name: ci-status
