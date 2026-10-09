@@ -9,7 +9,7 @@ export const NodeSchema = z.object({
     startLine: z.number(),
     endLine: z.number()
   }),
-  meta: z.record(z.any()).optional()
+  meta: z.record(z.string(), z.any()).optional()
 });
 
 export const EdgeSchema = z.object({
@@ -23,7 +23,7 @@ export const EdgeSchema = z.object({
     file: z.string(),
     line: z.number()
   }).optional(),
-  meta: z.record(z.any()).optional()
+  meta: z.record(z.string(), z.any()).optional()
 });
 
 export const HeuristicResultSchema = z.object({
