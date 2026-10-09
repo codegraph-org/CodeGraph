@@ -142,8 +142,8 @@ importers:
         specifier: ^0.1.13
         version: 0.1.13
       web-tree-sitter:
-        specifier: ^0.20.8
-        version: 0.20.8
+        specifier: ^0.27.0
+        version: 0.27.0
     devDependencies:
       '@types/node':
         specifier: ^26.6.4
@@ -3940,8 +3940,8 @@ packages:
       xml-name-validator: 5.0.0
     dev: true
 
-  /web-tree-sitter@0.20.8:
-    resolution: {integrity: sha512-weOVgZ3aAARgdnb220GqYuh7+rZU0Ka9k9yfKtGAzEYMa6GgiCzW9JjQRJyCJakvibQW+dfjJdihjInKuuCAUQ==}
+  /web-tree-sitter@0.27.0:
+    resolution: {integrity: sha512-XK08gj6RwTMQatAG7uVRP8MunqotL/XC19vHgkSPKmELgbGPBj4ECvB8haHOUnyj6ls2B8t42UTro14zxGgAHg==}
     dev: false
 
   /webidl-conversions@8.0.1:
