@@ -79,7 +79,7 @@ Reason:
 The method mutates state without a detected require_auth call.
 ```
 
-These checks are intentionally heuristic and should be reviewed by developers before being treated as security findings.
+These checks are intentionally heuristic and should be reviewed by developers before being treated as security findings. See the [Architecture Heuristics & Health Checks Guide](docs/HEURISTICS.md) for detailed descriptions, false-positive notes, and remediation guidance for each rule.
 
 ### Documentation Generation
 
