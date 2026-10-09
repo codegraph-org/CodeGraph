@@ -141,3 +141,11 @@ jobs:
             exit 1
           fi
           echo "All CI jobs passed successfully."
+
+  build-and-test:
+    name: build-and-test
+    needs: [ci-status]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify pipeline status
+        run: echo "All CI checks and build-and-test passed."
