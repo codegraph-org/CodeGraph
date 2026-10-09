@@ -32,9 +32,10 @@ jobs:
           requireScope: false
 
       - name: Check for Linked Issue in PR Body
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
         run: |
-          BODY="${{ github.event.pull_request.body }}"
-          if echo "$BODY" | grep -Ei "(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved) #[0-9]+" > /dev/null; then
+          if echo "$PR_BODY" | grep -Ei "(close|closes|closed|fix|fixes|fixed|resolve|resolves|resolved) #[0-9]+" > /dev/null; then
             echo "Linked issue found in PR body."
           else
             echo "::warning title=Missing Linked Issue::PR body does not appear to contain a linked issue (e.g. 'Closes #123')."
