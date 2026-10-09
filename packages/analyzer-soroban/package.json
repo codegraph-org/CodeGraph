@@ -15,7 +15,7 @@
     "@codegraph/shared": "workspace:*",
     "@iarna/toml": "^2.2.5",
     "tree-sitter-wasms": "^0.1.13",
-    "web-tree-sitter": "^0.20.8"
+    "web-tree-sitter": "^0.27.0"
   },
   "devDependencies": {
     "@types/node": "^26.6.4",
