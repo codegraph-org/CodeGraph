@@ -7,6 +7,7 @@
     "build": "pnpm --filter @codegraph/shared run build && pnpm --filter @codegraph/core run build && pnpm --filter @codegraph/analyzer-soroban run build && pnpm --filter @codegraph/cli run build && pnpm --filter web run build",
     "test": "vitest run",
     "typecheck": "pnpm -r run typecheck",
+    "check": "pnpm typecheck && pnpm lint",
     "lint": "eslint . --ext .ts,.tsx",
     "format": "prettier --write \"**/*.{ts,tsx,json,md}\""
   },
