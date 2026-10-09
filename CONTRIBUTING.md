@@ -1,84 +1,92 @@
 # Contributing to CodeGraph
 
-Thank you for your interest in contributing to CodeGraph! We appreciate your help in building better visual code intelligence tools for Stellar and Soroban.
+Thank you for your interest in contributing to CodeGraph! We are building open-source visual architecture intelligence for Stellar and Soroban codebases.
 
-## Getting Started
+---
 
-1. **Fork the repository** on GitHub.
-2. **Clone your fork** locally:
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/CodeGraph.git
-   cd CodeGraph
-   ```
-3. **Install dependencies** using `pnpm` (required):
-   ```bash
-   pnpm install
-   ```
+## Code of Conduct
 
-## Development Workflow
+All contributors and maintainers are expected to adhere to our [Code of Conduct](CODE_OF_CONDUCT.md).
 
-### Branch Naming
-Please use descriptive branch names, prefixing them with the type of change:
-- `feature/your-feature-name`
-- `bugfix/issue-description`
-- `docs/update-readme`
+---
 
-### Running Tests and Linting
-Before submitting a pull request, ensure your code passes all checks:
+## Stellar Wave (Drips) Program Guidelines
 
+CodeGraph participates in the **Stellar Wave Program** on the Drips Network. If you are participating via Wave, please follow these steps:
+
+### 1. Claiming an Issue
+- **Browse Curated Issues**: Explore the [Open Issues](https://github.com/codegraph-org/CodeGraph/issues) tagged with `complexity:trivial`, `complexity:medium`, or `complexity:high`.
+- **Apply on Drips Wave**: Apply for the issue directly through the [Drips Wave App](https://drips.network/wave) after completing your KYC verification.
+- **Comment on GitHub**: Leave a comment on the GitHub issue stating you've applied on Drips and providing a brief outline of your approach.
+- **Wait for Official Assignment**: **Do not open a PR before being officially assigned.** Once assigned by a maintainer in Drips/GitHub, the issue is reserved for you.
+
+### 2. Wave Complexity & Points System
+Points reflect task complexity and convert into a proportional share of the Wave reward pool upon PR merge and maintainer resolution:
+- **Trivial (100 points)**: Typos, documentation improvements, formatting, minor test fixture additions.
+- **Medium (150 points)**: Discrete bug fixes, new heuristic checks, UI components, parser edge cases.
+- **High (200 points)**: Cross-crate AST resolution, complex layout engines, architecture refactors.
+
+*Note: CodeGraph does not promise specific token or dollar amounts. Points represent shares of the program pool administered by the Wave organizers.*
+
+### 3. Maintainer SLA Promise
+- **First Response**: We promise a first response on every issue claim and pull request within **48 hours**.
+- **Review Turnaround**: We aim to complete reviews and merge or request changes within **5 business days**.
+- **Inactivity Policy**: If an assigned contributor is silent for **5 days**, the issue may be unassigned and returned to the applicant pool to ensure sprint momentum.
+
+---
+
+## Local Development Setup
+
+### Prerequisites
+- **Node.js**: `v20.18.0` or `v22.x` (check `.nvmrc`)
+- **pnpm**: `v9.x` (`corepack enable && corepack prepare pnpm@9 --activate` or `npm install -g pnpm@9`)
+
+### Clone and Install
 ```bash
-# Run linting
+git clone https://github.com/codegraph-org/CodeGraph.git
+cd CodeGraph
+pnpm install --frozen-lockfile
+```
+
+### Build All Packages
+CodeGraph is a monorepo. Build all packages in order:
+```bash
+pnpm build
+```
+
+### Quality Checks
+Ensure all checks pass before opening your pull request:
+```bash
+# 1. Lint TypeScript and React code
 pnpm lint
 
-# Run formatting
-pnpm format
+# 2. Typecheck all packages
+pnpm typecheck
 
-# Run tests
+# 3. Run all unit and golden snapshot tests
 pnpm test
 ```
 
-### Commit Style
-Write clear, concise commit messages. If your commit fixes an issue, reference it (e.g., `Fix #123: Correct Soroban client call resolution`).
+---
 
-## Adding an Analyzer Pack
+## Pull Request Guidelines
 
-If you are creating a new analyzer (e.g., for a different language or framework):
-1. Create a new directory in `packages/analyzer-YOUR_TECH/`.
-2. Ensure your package exports an implementation of the plugin interface that `core` expects.
-3. Update `apps/cli/package.json` and `apps/cli/src/index.ts` to detect and utilize your new plugin.
+1. **One Concern per PR**: Every PR must be scoped to a single issue and be reviewable in one pass.
+2. **Commit Convention**: Follow [Conventional Commits](https://www.conventionalcommits.org/):
+   - `feat: add node click handler in viewer`
+   - `fix: resolve storage access in helper functions`
+   - `docs: update heuristics documentation`
+   - `test: add missing auth fixture`
+3. **Link Your Issue**: Always include `Closes #<issue_number>` in your PR description.
+4. **UI Changes**: If submitting changes to `apps/web`, include before-and-after screenshots in your PR description.
 
-## Adding a Fixture with a Golden Test
+---
 
-Fixtures are critical for ensuring parsing accuracy. To add a new one:
-1. Create a new directory in `fixtures/` with a descriptive name (e.g., `fixtures/my-new-case/`).
-2. Add the minimal source code needed to reproduce the parsing scenario.
-3. In the relevant analyzer package tests (e.g., `packages/analyzer-soroban/test/golden.test.ts`), add a test case that runs your fixture and asserts against a known "golden" JSON output snapshot.
+## Adding Fixtures & Golden Tests
 
-## Your First Contribution
+When enhancing or fixing the Soroban AST parser (`packages/analyzer-soroban`):
+1. Add a minimal Rust reproduction file under `fixtures/<case-name>/src/lib.rs`.
+2. Add a corresponding test case in `packages/analyzer-soroban/test/golden.test.ts`.
+3. If changing the graph output schema, update `fixtures/golden/soroban-single.graph.json` and ensure canonical snapshots pass.
 
-Not sure where to start? Check our issue tracker for issues labeled `good first issue`. 
-We recommend starting with a documentation update, a simple CLI ergonomics improvement, or a basic parser fix. 
-
-## Pull Request Checklist
-
-When submitting a PR, ensure you:
-- [ ] Provide a clear description of the changes.
-- [ ] Include test coverage for any new features or bug fixes.
-- [ ] Add golden tests if modifying an AST parser.
-- [ ] Verify that `pnpm test` and `pnpm lint` succeed locally.
-
-## Issue Labels Explained
-
-- `good first issue`: Accessible for newcomers.
-- `help wanted`: Maintainers need community assistance.
-- `bug`: Something isn't working properly.
-- `feature`: A request for new functionality.
-- `documentation`: Docs updates.
-- `parser`: Core AST parsing engine issues.
-- `analyzer-soroban` / `analyzer-ts`: Tech-specific analyzer issues.
-- `frontend` / `backend`: UI and core node backend tasks.
-- `complexity:trivial` (100 pts), `complexity:medium` (150 pts), `complexity:high` (200 pts): Indicate the expected effort required to complete the issue.
-
-## Review Expectations
-
-We aim to review and provide the first response to all issues and PRs within **48 hours**. We appreciate your patience and effort!
+Thank you for contributing to CodeGraph!
