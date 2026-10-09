@@ -545,4 +545,4 @@ Architecture Intelligence
 ## Links
 
 - [GitHub Repository](https://github.com/codegraph-org/CodeGraph)
-- [Issues](https://github.com/codegraph-org/CodeGraph/issues)
+- [Issues](https://github.com/codegraph-org/CodeGraph/issues)<!-- CI sanity test check -->
