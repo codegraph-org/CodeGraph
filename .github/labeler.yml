@@ -1,0 +1,26 @@
+area:cli:
+  - changed-files:
+      - any-glob-to-any-file: apps/cli/**/*
+
+area:web:
+  - changed-files:
+      - any-glob-to-any-file: apps/web/**/*
+
+area:analyzer-soroban:
+  - changed-files:
+      - any-glob-to-any-file: packages/analyzer-soroban/**/*
+
+area:core:
+  - changed-files:
+      - any-glob-to-any-file: packages/core/**/*
+
+area:shared:
+  - changed-files:
+      - any-glob-to-any-file: packages/shared/**/*
+
+area:docs:
+  - changed-files:
+      - any-glob-to-any-file:
+          - docs/**/*
+          - '*.md'
+          - .github/**/*.md
