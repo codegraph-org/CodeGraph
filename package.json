@@ -12,11 +12,11 @@
     "format": "prettier --write \"**/*.{ts,tsx,json,md}\""
   },
   "devDependencies": {
-    "@types/node": "^26.6.4",
+    "@types/node": "^26.6.5",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
     "eslint": "^8.0.0",
-    "prettier": "^3.0.0",
+    "prettier": "^3.9.10",
     "typescript": "^5.4.0",
     "vitest": "^1.5.0"
   },
